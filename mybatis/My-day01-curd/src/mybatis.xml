@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 按F2子标签有哪些，后面是？表示可以小于等于1个，不带任何符号，表示有且仅有一个， 带+表示大于等于一个，带*表示大于等于0个，两个字标签间用逗号隔开表示子标签出现要顺序。 -->
+	<!-- 注册连接数据库的四要素的属性值文件 -->
+	<properties resource="jdbc-mysql.properties" />
+	<!-- 定义类型别名 -->
+	<typeAliases>
+		<!-- 将指定包中所有类的简单类名当作其别名 -->
+		<package name="cn.wanglei.beans" />
+	</typeAliases>
+	<!-- 配置运行环境 -->
+	<environments default="testEM">
+		<!-- 可以有多个enviroment,设置不同ID方便不同情况下选择不同的运行环境，比如测试用testEM 而上线用onlineEm等等 
+			，但是用的时候只能选择一个,就在上面的default里面选择的一个 -->
+		<environment id="testEM">
+			<!-- 配置事物管理器，可以有两个，一个是JDBC的事物管理器，一个是框架的事物管理器 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 数据源采用的是数据库连接池 -->
+			<dataSource type="POOLED">
+				<!-- 这些name属性对应的值都在mybatis文档中查，懂意思就行 -->
+				<!-- 驱动是mysql connect的jar把包中jdbc下的drive类 -->
+				<property name="driver" value="${jdbc.driver}" />
+				<!-- 如果本机数据库的端口3306没改，可以把ip和端口都省略，直接///到数据库名 -->
+				<!-- <property name="url" value="jdbc:mysql(这是协议总协议+子协议):///java"/> -->
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 注册映射文件 -->
+	<mappers>
+		<mapper resource="cn/wanglei/dao/mapper.xml" />
+	</mappers>
+</configuration>
